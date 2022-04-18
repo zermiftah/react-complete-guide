@@ -1,45 +1,29 @@
-import React from 'react';
-import Expenses from './components/Expenses/Expenses'
-import NewExpense from './components/NewExpense/NewExpense';
+import { useState } from 'react';
 
-const App = () => {
-  const expenses = [
-    {
-      id: 'e1',
-      title: 'Toilet Paper',
-      amount: 294.12,
-      date: new Date(2022, 7, 14),
-    },
-    {
-      id: 'e2',
-      title: 'New TV',
-      amount: 799.49,
-      date: new Date(2022, 2, 12)
-    },
-    {
-      id: 'e3',
-      title: 'Car Insurance',
-      amount: 294.67,
-      date: new Date(2022, 2, 28),
-    },
-    {
-      id: 'e4',
-      title: 'New Desk (Wooden)',
-      amount: 450.98,
-      date: new Date(2022, 5, 12),
-    },
-  ];
+import Header from './components/Layout/Header';
+import Meals from './components/Meals/Meals';
+import Cart from './components/Cart/Cart';
+import CartProvider from './store/CartProvider';
 
-  // return React.createElement(
-  //   'div', {},
-  //   React.createElement('h2', {}, "Let\'s get started"),
-  //   React.createElement(Expenses, { items: expenses })
-  // );
+function App() {
+  const [cartIsShown, setCartIsShown] = useState(false);
+
+  const showCartHandler = () => {
+    setCartIsShown(true);
+  };
+
+  const hideCartHandler = () => {
+    setCartIsShown(false);
+  };
+
   return (
-    <div>
-      <NewExpense />
-      <Expenses items={expenses} />
-    </div >
+    <CartProvider>
+      {cartIsShown && <Cart onClose={hideCartHandler} />}
+      <Header onShowCart={showCartHandler} />
+      <main>
+        <Meals />
+      </main>
+    </CartProvider>
   );
 }
 
